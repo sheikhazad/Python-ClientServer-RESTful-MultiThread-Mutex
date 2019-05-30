@@ -9,7 +9,7 @@ This project use some advanced features of Python like:
 
 Attached Files: 
 
-1. Problem description file which explains purpose of this project
+1. Problem description file which explains purpose of this project (Suggested to read this first before seeing code)
 
 2. Server part (without Socket Client)  is packed in docker, which means it can be run and test RESTful API.  Repository is:
 
