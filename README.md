@@ -18,11 +18,11 @@ https://cloud.docker.com/repository/registry-1.docker.io/sheikhazad2/crypto-tcp-
 3. Attached Test result by running TCP Server/REST/TCP Client/Web browser on Pycharm Python Terminal. Also attached REST API test on docker.
 
 4. Code are in 3 files:
-   i)   CryptoServer.py         - Server executable - [ Contains code for TCP server + REST API ]
-   ii)  CryptoRestAPI.py        -  [REST API called by i) 
-   iii) CryptoTCPClient.py      - TCP Client executable
+   i)   CryptoServer.py         -  (Server executable - [ Contains code for TCP server + REST API ])
+   ii)  CryptoRestAPI.py        -  (REST API called by i) 
+   iii) CryptoTCPClient.py      -  (TCP Client executable )
    iv) Instructions.txt
-   v) TestResult-REST-Browser-TCP-Client.PNG   - Test Result
+   v) TestResult-REST-Browser-TCP-Client.PNG   - (Test Result)
 
 
 
