@@ -1,0 +1,106 @@
+
+This project is written in Python 3.6.8 on Pycharm.
+*********************************************************************************
+# <--------------------ENABLE DOCKER CONTAINER ----------------------------------------------------->
+*********************************************************************************
+A) HOW TO TEST RESTful API WHEN SERVER IS RUN ON DOCKER:
+*********************************************************************************
+    # In case of running server/client from docker, the container is the localhost (not our machine),
+    # Setting host= '127.0.0.1' or localhost parameter will not make the server accessible
+    # as docker container is running on different IP.
+    # So, you need to get the ip address (say 192.168.99.100) of the docker as shown in A.1) ii) below
+   A.1) For REST Web service:
+        > docker run --name cryptoServer -p 6000:6000 -p 12345:12345 sheikhazad2/crypto-tcp-rest-server
+        i) Find your docker virtual machine's IP
+          > $ docker-machine ip
+              192.168.99.100      ==> [ It will return ip for example - 192.168.99.100 ]
+        ii) Find port mappings
+          > docker ps
+          CONTAINER ID        IMAGE                STATUS              PORTS                   NAMES
+          42f88ac00e6f        azad-crypto-server   Up 30 seconds       0.0.0.0:12345->12345/tcp   crypto
+        iii) Run on your browser with IP and port from above i) and ii)
+             http://192.168.99.100:12345/
+             http://192.168.99.100:12345/clean_array
+             http://192.168.99.100:12345/get_array
+             http://192.168.99.100:12345/add_value
+*********************************************************************************
+B) To run CryptoTCPClient.py, Need to set User Environment Variable IP_ADDR with correct local IP address
+
+    # When run on Docker, need to do bridge network setup and set IP_ADDR = correct Docker Server's IP:
+    # <-------------------- WHEN RUN ON LOCAL MACHINE -------------------------------------------------->
+    # When Server is run outside Docker, Set IP_ADDR=localhost
+    # -------------------------------------------------------------------------------------------------->
+*********************************************************************************************************
+C) RUNNING BOTH SERVER AND CLIENT ON PYTHON TERMINAL
+C.1) Install following 2 packages:
+> pip install sortedcontainers
+> pip install flask
+
+C.2) Run both TCP and REST servers/app :
+> python CryptoServer.py                 ==> It will start both TCP and REST servers/app
+
+C.3) Run TCP Client in Python Terminal
+> python CryptoTCPClient.py              ==> It will start TCP Client
+
+C.4) REST API Clients:
+5.1 http://localhost:12345/              ==> Show Home Page
+5.2 http://localhost:12345/clean_array   ==> Clear the current array
+5.3 http://localhost:12345/get_array     ==> Get current array
+5.4 http://localhost:12345/add_value     ==> It will add a random value (1000-10000) in the array
+
+*********************************************************************************************
+
+6) Random integer range inserted to array is distinguished for TCP Client and REST:
+6.1 Random values generated for TCP Client is between 0 to 100
+6.2 Random values generated for REST API Endpoint = add_value is between 1000 to 10000
+
+
+7. Sample test result from Pycharm Python terminal:
+
+---------------------------Test - From TCP-Client Terminal-----------------------------
+
+(venv) C:\Users\fahee\PycharmProjects\CryptoTLS>python CryptoClient.py
+Client: Random array to be sent to Server, Size: 12  Array: [47, 53, 56, 21, 36, 53, 15, 72, 19, 12, 15, 36]
+Client: Received from Server, New Sorted Array: SortedList([12, 15, 15, 19, 21, 36, 36, 47, 53, 53, 56, 72])
+
+Client: Do you want to send more data to Server? (y/n) : y
+Client: Random array to be sent to Server, Size: 19  Array: [76, 49, 54, 96, 44, 29, 32, 95, 61, 46, 18, 4, 62, 5, 71, 61, 24, 31, 59]
+Client: Received from Server, New Sorted Array: SortedList([4, 5, 12, 15, 15, 18, 19, 21, 24, 29, 31, 32, 36, 36, 44, 46, 47, 49, 53, 53, 54, 56, 59, 61, 61, 62, 71, 72, 76, 95, 96])
+
+Client: Do you want to send more data to Server? (y/n) : n
+
+(venv) C:\Users\fahee\PycharmProjects\CryptoTLS>python CryptoClient.py
+Client: Random array to be sent to Server, Size: 16  Array: [0, 26, 4, 6, 88, 89, 56, 15, 59, 44, 19, 24, 83, 83, 16, 69]
+Client: Received from Server, New Sorted Array: SortedList([0, 4, 4, 5, 6, 12, 15, 15, 15, 16, 18, 19, 19, 21, 24, 24, 26, 29, 31, 32, 36, 36, 44, 44, 46, 47, 49, 53, 53, 54, 56, 56, 59, 59
+, 61, 61, 62, 69, 71, 72, 76, 83, 83, 88, 89, 95, 96])
+
+Client: Do you want to send more data to Server? (y/n) : n
+
+---------------------------Test - From Server Terminal - Showing both TCP and REST -----------------------------
+
+(venv) C:\Users\fahee\PycharmProjects\CryptoTLS>python CryptoServer.py
+Server: New int array received from Client, Size: 17 Array: [59, 38, 39, 36, 80, 10, 50, 47, 83, 79, 39, 31, 3, 66, 49, 0, 56]
+Server: Processed sorted array in Server, New Size: 17 New Array: SortedList([0, 3, 10, 31, 36, 38, 39, 39, 47, 49, 50, 56, 59, 66, 79, 80, 83])
+
+Server: New int array received from Client, Size: 19 Array: [7, 83, 24, 79, 59, 56, 60, 68, 26, 87, 68, 19, 36, 55, 79, 18, 25, 48, 15]
+Server: Processed sorted array in Server, New Size: 36 New Array: SortedList([0, 3, 7, 10, 15, 18, 19, 24, 25, 26, 31, 36, 36, 38, 39, 39, 47, 48, 49, 50, 55, 56, 56, 59, 59, 60, 66, 68, 68
+, 79, 79, 79, 80, 83, 83, 87])
+DEBUG: add_value() GET method was called
+REST API Server[EndPoint = add_value] : Adding random integer: 6639 in array, Old Size: 36 Old Array: SortedList([0, 3, 7, 10, 15, 18, 19, 24, 25, 26, 31, 36, 36, 38, 39, 39, 47, 48, 49, 50
+, 55, 56, 56, 59, 59, 60, 66, 68, 68, 79, 79, 79, 80, 83, 83, 87])
+REST API Server[EndPoint = add_value] : Added random integer: 6639 in array, New Size: 37, New Array: SortedList([0, 3, 7, 10, 15, 18, 19, 24, 25, 26, 31, 36, 36, 38, 39, 39, 47, 48, 49, 50
+, 55, 56, 56, 59, 59, 60, 66, 68, 68, 79, 79, 79, 80, 83, 83, 87, 6639])
+127.0.0.1 - - [29/Apr/2019 07:50:04] "GET /add_value HTTP/1.1" 200 -
+REST API Server[EndPoint = get_array] : Return sorted array in Server, Size: 37 Array: SortedList([0, 3, 7, 10, 15, 18, 19, 24, 25, 26, 31, 36, 36, 38, 39, 39, 47, 48, 49, 50, 55, 56, 56, 5
+9, 59, 60, 66, 68, 68, 79, 79, 79, 80, 83, 83, 87, 6639])
+127.0.0.1 - - [29/Apr/2019 07:50:43] "GET /get_array HTTP/1.1" 200 -
+Server: No data received, closing connection from client, waiting for new client request...
+
+DEBUG: add_value() GET method was called
+REST API Server[EndPoint = add_value] : Adding random integer: 3383 in array, Old Size: 37 Old Array: SortedList([0, 3, 7, 10, 15, 18, 19, 24, 25, 26, 31, 36, 36, 38, 39, 39, 47, 48, 49, 50
+, 55, 56, 56, 59, 59, 60, 66, 68, 68, 79, 79, 79, 80, 83, 83, 87, 6639])
+REST API Server[EndPoint = add_value] : Added random integer: 3383 in array, New Size: 38, New Array: SortedList([0, 3, 7, 10, 15, 18, 19, 24, 25, 26, 31, 36, 36, 38, 39, 39, 47, 48, 49, 50
+, 55, 56, 56, 59, 59, 60, 66, 68, 68, 79, 79, 79, 80, 83, 83, 87, 3383, 6639])
+127.0.0.1 - - [29/Apr/2019 07:51:33] "GET /add_value HTTP/1.1" 200 -
+
+

@@ -26,3 +26,5 @@ https://cloud.docker.com/repository/registry-1.docker.io/sheikhazad2/crypto-tcp-
 
 
 
+HOW TO RUN:
+Follow instructions given in file - Instruction.txt
